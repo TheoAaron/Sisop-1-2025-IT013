@@ -22,18 +22,18 @@ then
 #untuk on the run
 elif [ "$TRACK" = "On the Run" ]
 then
- # 1. Create ProgressBar function
- # 1.1 Input is currentState($1) and totalState($2)
+
+ # Inputnya currentState($1) dan totalState($2)
  function ProgressBar {
- # Process data
+ # bagian proses data
         let _progress=(${1}*100/${2}*100)/100
         let _done=(${_progress}*4)/10
         let _left=40-$_done
- # Build progressbar string lengths
+ # Membuat panjang string progressbar
         _done=$(printf "%${_done}s")
         _left=$(printf "%${_left}s")
 
- # 1.2 Build progressbar strings and print the ProgressBar line
+ # Membuat progressbar string dan print garis progressbar
  printf "\rProgress : [${_done// /+}${_left// /-}] ${_progress}%%"
 
  }
@@ -42,7 +42,7 @@ then
  _start=1
  _end=100
 
- # Proof of concept
+ # penggunaan
  for number in $(seq ${_start} ${_end})
  do
         sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
@@ -64,6 +64,7 @@ then
 clear 
 while :
  do 
+ # untuk print 4 nilai yang akan diteruskan ke awk
   echo $LINES $COLUMNS $(( $RANDOM % $COLUMNS)) $(( $RANDOM % 17 )) 
   sleep 0.05
  done| awk '{ letters="$ € £ ¥ ¢ ₹ ₩ ₿ ₣"
