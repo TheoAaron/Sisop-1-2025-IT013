@@ -1,4 +1,5 @@
 #!/bin/bash
+#mudahkan hamba dalam menjalani puasa ya allah
 
 #untuk membuat command --play=”<Track>” dapat dibaca
 for arg in "$@"
@@ -23,26 +24,23 @@ then
 elif [ "$TRACK" = "On the Run" ]
 then
 
- # Inputnya currentState($1) dan totalState($2)
  function ProgressBar {
- # bagian proses data
+
         let _progress=(${1}*100/${2}*100)/100
         let _done=(${_progress}*4)/10
         let _left=40-$_done
- # Membuat panjang string progressbar
+
         _done=$(printf "%${_done}s")
         _left=$(printf "%${_left}s")
 
- # Membuat progressbar string dan print garis progressbar
+
  printf "\rProgress : [${_done// /+}${_left// /-}] ${_progress}%%"
 
  }
 
- # Variables
  _start=1
  _end=100
 
- # penggunaan
  for number in $(seq ${_start} ${_end})
  do
         sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
@@ -83,5 +81,5 @@ then
  watch -n 1 ps -eo 'pid,user,ppid,cmd,%mem,%cpu,start,time,command --sort=-%cpu | head -11'
 
 else
-  echo "gaada command nya"
+  echo "alhamdulillah selesai juga, semoga puasa kalian berkah semua"
 fi
