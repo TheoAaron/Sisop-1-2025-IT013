@@ -64,7 +64,7 @@ then
 clear 
 while :
  do 
-  echo $LINES $COLUMNS $(( $RANDOM % $COLUMNS)) $(( $RANDOM % 72 )) 
+  echo $LINES $COLUMNS $(( $RANDOM % $COLUMNS)) $(( $RANDOM % 17 )) 
   sleep 0.05
  done| awk '{ letters="$ € £ ¥ ¢ ₹ ₩ ₿ ₣"
               c=$4
