@@ -60,7 +60,7 @@ then
 #untuk money
 elif [ "$TRACK" = "Money" ]
 then 
- echo -e "\e[1;40m" 
+ echo -e "\033[1;40m" 
 clear 
 while :
  do 
