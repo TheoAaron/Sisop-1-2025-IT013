@@ -15,13 +15,13 @@ Usage:
   ./pokemon_analysis.sh <file.csv> <command> [options]
 
 Commands:
-  --info       : Menampilkan summary dari data
-  --sort <col> : Mengurutkan berdasarkan kolom (usage, raw, hp, atk, etc.)
-  --grep <name>: Mencari Pokemon berdasarkan nama
-  --filter <type>: Mencari Pokemon berdasarkan Type
-  --avg        : Menampilkan rata-rata statistik semua Pokemon
-  --top10      : Menampilkan 10 Pokemon dengan Usage% tertinggi
-  --help       : Menampilkan halaman bantuan ini
+  --info           : Menampilkan summary dari data
+  --sort <col>     : Mengurutkan berdasarkan kolom (usage, raw, hp, atk, etc.)
+  --grep <name>    : Mencari Pokemon berdasarkan nama
+  --filter <type>  : Mencari Pokemon berdasarkan Type
+  --avg            : Menampilkan rata-rata statistik semua Pokemon
+  --top10          : Menampilkan 10 Pokemon dengan Usage% tertinggi
+  --help           : Menampilkan halaman bantuan ini
 
 Example:
   ./pokemon_analysis.sh pokemon_usage.csv --sort usage
