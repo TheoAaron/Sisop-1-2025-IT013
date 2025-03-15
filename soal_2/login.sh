@@ -18,8 +18,6 @@ while true; do
     echo "| 2) Open Crontab Manager                          |"
     echo "| 3) Exit to Terminal                              |"
     echo "===================================================="
-    echo "|      (Press ESC to go back to the terminal)      |"
-    echo "===================================================="
 
     read -p "Select an option: " option
 
