@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Jika hanya --help diberikan tanpa file CSV
 if [[ "$1" == "--help" ]]; then
     cat << "EOF"
 ███████╗ █████╗ ██╗      ██████╗  ██████╗ ███╗   ███╗ ██████╗ 
@@ -31,14 +30,12 @@ EOF
     exit 0
 fi
 
-# Jika jumlah argumen kurang
 if [[ $# -lt 2 ]]; then
     echo "Error: Missing arguments!"
     echo "Use ./pokemon_analysis.sh --help"
     exit 1
 fi
 
-# Variabel untuk file CSV dan command
 FILE="$1"
 COMMAND="$2"
 
@@ -48,7 +45,6 @@ if [[ ! -f "$FILE" ]]; then
     exit 1
 fi
 
-# Fungsi untuk menampilkan summary
 info_summary() {
     HEADER=$(head -n 1 "$FILE")
     HIGHEST_USAGE=$(tail -n +2 "$FILE" | sort -t, -k2 -nr | head -n 1)
@@ -65,7 +61,6 @@ info_summary() {
     echo "Highest Raw Usage:       $HIGHEST_RAW_NAME with $HIGHEST_RAW_COUNT uses"
 }
 
-# Fungsi untuk sorting berdasarkan kolom
 sort_data() {
     if [[ -z "$3" ]]; then
         echo "Error: Missing column name for sorting!"
@@ -100,7 +95,6 @@ sort_data() {
     fi
 }
 
-# Fungsi untuk mencari Pokemon berdasarkan nama
 grep_pokemon() {
     if [[ -z "$3" ]]; then
         echo "Error: Missing Pokémon name!"
@@ -119,7 +113,6 @@ grep_pokemon() {
     fi
 }
 
-# Fungsi untuk filter berdasarkan Type
 filter_type() {
     if [[ -z "$3" ]]; then
         echo "Error: Missing Pokémon type!"
@@ -142,7 +135,6 @@ filter_type() {
     fi
 }
 
-# Fungsi untuk menampilkan rata-rata statistik
 average_stats() {
     HEADER="Pokemon,Usage%,RawUsage,Type1,Type2,HP,Atk,Def,SpAtk,SpDef,Speed"
     AVG_HP=$(awk -F, 'NR>1 {sum+=$6; count++} END {print sum/count}' "$FILE")
@@ -156,14 +148,12 @@ average_stats() {
     echo "Average, N/A, N/A, N/A, N/A, $AVG_HP , $AVG_ATK , $AVG_DEF , $AVG_SPATK , $AVG_SPDEF , $AVG_SPEED"
 }
 
-# Fungsi untuk menampilkan Top 10 Pokemon berdasarkan Usage%
 top10_pokemon() {
     HEADER=$(head -n 1 "$FILE")
     echo "$HEADER"
     tail -n +2 "$FILE" | sort -t, -k2 -nr | head -n 10
 }
 
-# Menjalankan perintah yang sesuai
 case "$COMMAND" in
     --info) info_summary ;;
     --sort) sort_data "$@" ;;
