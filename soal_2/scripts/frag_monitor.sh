@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-#!/bin/bash
-
-watch -n 1 "free -m | awk '/Mem/ {printf \"RAM Usage: %.2f%%\\n\", \$3/\$2 * 100.0}'"
-=======
 LOG_DIR="$(dirname "$0")/../logs"
 LOG_FILE="$LOG_DIR/fragment.log"
 
@@ -16,4 +11,3 @@ RAM_AVAILABLE=$(free -m | awk '/Mem:/ {print $7}')
 RAM_USED=$(free -m | awk '/Mem:/ {print $3}')
 
 echo "[$TIMESTAMP] - Fragment Usage [$RAM_USAGE%] - Fragment Count [$RAM_USED MB] - Details [Total: $RAM_TOTAL MB, Available: $RAM_AVAILABLE MB]" >> "$LOG_FILE"
->>>>>>> cac64ee (Final Perbaikan soal_2)
