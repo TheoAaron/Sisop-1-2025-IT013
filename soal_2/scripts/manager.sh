@@ -1,57 +1,42 @@
-SCRIPT_DIR="$(dirname "$0")"
+mkdir -p ~/soal_2/logs
 
-show_cpu_usage() {
-    bash "$SCRIPT_DIR/core_monitor.sh"
-}
+echo "========================================================"
+echo "|                 CRONTAB MANAGER MENU                 |"
+echo "========================================================"
+echo "1) Add CPU Usage Monitor"
+echo "2) Add RAM Usage Monitor"
+echo "3) Remove CPU Usage Monitor"
+echo "4) Remove RAM Usage Monitor"
+echo "5) View Active Jobs"
+echo "6) Exit"
+echo "========================================================"
+read -p "Select an option: " OPTION
 
-show_ram_usage() {
-    bash "$SCRIPT_DIR/frag_monitor.sh"
-}
-
-view_active_jobs() {
-    crontab -l 2>/dev/null || echo "No active jobs."
-}
-
-add_cron_job() {
-    local job_cmd=$1
-    local schedule="*/3 * * * *"
-    (crontab -l 2>/dev/null; echo "$schedule $job_cmd") | crontab -
-    echo "Job telah ditambahkan ke crontab."
-}
-
-remove_cron_job() {
-    local keyword=$1
-    crontab -l | grep -v "$keyword" | crontab -
-    echo "Job telah dihapus dari crontab."
-}
-
-show_menu() {
-    clear
-    echo "========================================================"
-    echo "|                 CRONTAB MANAGER MENU                 |"
-    echo "========================================================"
-    echo "1) Add CPU Usage Monitor"
-    echo "2) Add RAM Usage Monitor"
-    echo "3) Remove CPU Usage Monitor"
-    echo "4) Remove RAM Usage Monitor"
-    echo "5) View Active Jobs"
-    echo "6) Exit"
-    echo "========================================================"
-    read -p "Select an option: " OPTION
-}
-
-while true; do
-    show_menu
-
-    case $OPTION in
-        1) add_cron_job "bash $SCRIPT_DIR/core_monitor.sh" ;;
-        2) add_cron_job "bash $SCRIPT_DIR/frag_monitor.sh" ;;
-        3) remove_cron_job "core_monitor.sh" ;;
-        4) remove_cron_job "frag_monitor.sh" ;;
-        5) view_active_jobs ;;
-        6) exit 0 ;;
-        *) echo "Invalid option. Please try again." ;;
-    esac
-
-    read -p "Press Enter to continue..."
-done
+case $OPTION in
+    1)
+        (crontab -l 2>/dev/null; echo "*/3 * * * * bash ~/soal_2/scripts/core_monitor.sh >> ~/soal_2/logs/core.log 2>&1") | crontab -
+        echo "CPU usage monitor added."
+        ;;
+    2)
+        (crontab -l 2>/dev/null; echo "*/3 * * * * bash ~/soal_2/scripts/frag_monitor.sh >> ~/soal_2/logs/fragment.log 2>&1") | crontab -
+        echo "RAM usage monitor added."
+        ;;
+    3)
+        crontab -l | grep -v "core_monitor.sh" | crontab -
+        echo "CPU usage monitor removed."
+        ;;
+    4)
+        crontab -l | grep -v "frag_monitor.sh" | crontab -
+        echo "RAM usage monitor removed."
+        ;;
+    5)
+        crontab -l
+        ;;
+    6)
+        echo "Exiting..."
+        exit 0
+        ;;
+    *)
+        echo "Invalid option."
+        ;;
+esac
