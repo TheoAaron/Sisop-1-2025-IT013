@@ -6,7 +6,6 @@ BEGIN {
     max_rating = 0
     pembaca_terbaik = ""
     judul_terbaik = ""
-    split("2023-12-31", batas_tanggal, "-")
 }
 
 $2 == "Chris Hemsworth" { chrisHems_count++ }
@@ -24,9 +23,7 @@ $7+0 > max_rating {
 
 $9 == "Asia" {
     split($5, tahun_setelah, "-")
-    if (tahun_setelah[1] > batas_tanggal[1] || 
-        (tahun_setelah[1] == batas_tanggal[1] && tahun_setelah[2] > batas_tanggal[2]) ||
-        (tahun_setelah[1] == batas_tanggal[1] && tahun_setelah[2] == batas_tanggal[2] && tahun_setelah[3] > batas_tanggal[3])) {
+    if (tahun_setelah[1] > 2023) {
         genre_terbaik[$4]++
     }
 }
