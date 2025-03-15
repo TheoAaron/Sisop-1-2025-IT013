@@ -1,15 +1,28 @@
-CRON_FILE=cron_jobs.tmp
-SCRIPTS_DIR="$(dirname "$0")"
-CORE_MONITOR="$SCRIPTS_DIR/core_monitor.sh"
-FRAG_MONITOR="$SCRIPTS_DIR/frag_monitor.sh"
+SCRIPT_DIR="$(dirname "$0")"
 
-check_escape() {
-    read -n 1 -s key
-    if [[ $key == $'\e' ]]; then
-        echo -e "\nReturning to terminal..."
-        sleep 1
-        exec ./terminal.sh
-    fi
+show_cpu_usage() {
+    bash "$SCRIPT_DIR/core_monitor.sh"
+}
+
+show_ram_usage() {
+    bash "$SCRIPT_DIR/frag_monitor.sh"
+}
+
+view_active_jobs() {
+    crontab -l 2>/dev/null || echo "No active jobs."
+}
+
+add_cron_job() {
+    local job_cmd=$1
+    local schedule="*/3 * * * *"
+    (crontab -l 2>/dev/null; echo "$schedule $job_cmd") | crontab -
+    echo "Job telah ditambahkan ke crontab."
+}
+
+remove_cron_job() {
+    local keyword=$1
+    crontab -l | grep -v "$keyword" | crontab -
+    echo "Job telah dihapus dari crontab."
 }
 
 show_menu() {
@@ -27,45 +40,18 @@ show_menu() {
     read -p "Select an option: " OPTION
 }
 
-add_cron_job() {
-    local SCRIPT_PATH=$1
-    local JOB_DESC=$2
-    crontab -l > "$CRON_FILE" 2>/dev/null
-    if ! grep -Fxq "* * * * * bash $SCRIPT_PATH" "$CRON_FILE"; then
-        echo "* * * * * bash $SCRIPT_PATH" >> "$CRON_FILE"
-        crontab "$CRON_FILE"
-        echo "$JOB_DESC added to crontab."
-    else
-        echo "$JOB_DESC is already scheduled."
-    fi
-    rm -f "$CRON_FILE"
-}
-
-remove_cron_job() {
-    local SCRIPT_PATH=$1
-    local JOB_DESC=$2
-    crontab -l > "$CRON_FILE" 2>/dev/null
-    grep -v "bash $SCRIPT_PATH" "$CRON_FILE" > crontab_tmp && mv crontab_tmp "$CRON_FILE"
-    crontab "$CRON_FILE"
-    echo "$JOB_DESC removed from crontab."
-    rm -f "$CRON_FILE"
-}
-
-view_active_jobs() {
-    echo "Active Cron Jobs:"
-    crontab -l
-}
-
 while true; do
     show_menu
+
     case $OPTION in
-        1) add_cron_job "$CORE_MONITOR" "CPU Monitor" ;;
-        2) add_cron_job "$FRAG_MONITOR" "RAM Monitor" ;;
-        3) remove_cron_job "$CORE_MONITOR" "CPU Monitor" ;;
-        4) remove_cron_job "$FRAG_MONITOR" "RAM Monitor" ;;
+        1) add_cron_job "bash $SCRIPT_DIR/core_monitor.sh" ;;
+        2) add_cron_job "bash $SCRIPT_DIR/frag_monitor.sh" ;;
+        3) remove_cron_job "core_monitor.sh" ;;
+        4) remove_cron_job "frag_monitor.sh" ;;
         5) view_active_jobs ;;
-        6) echo "Exiting..."; exit 0 ;;
-        *) echo "Invalid option. Try again." ;;
+        6) exit 0 ;;
+        *) echo "Invalid option. Please try again." ;;
     esac
+
     read -p "Press Enter to continue..."
 done
