@@ -24,7 +24,8 @@ clear
 echo "======================================================"
 echo "|            REGISTER NEW PLAYER ACCOUNT             |"
 echo "======================================================"
-echo "(Press ESC to go back to the terminal)"
+echo "|       (Press ESC to go back to the terminal)       |"
+echo "======================================================"
 
 while true; do
     echo -n "Enter your email: "

@@ -1,24 +1,51 @@
 DATA_FILE="data/player.csv"
 
-check_escape() {
+check_escape_while_login() {
     read -n 1 -s key
     if [[ $key == $'\e' ]]; then
-        echo -e "\n..."
-        echo -e "Returning to terminal..."
+        echo -e "\nReturning to the main menu..."
         sleep 1
-        exec ./terminal.sh
+        exec $0
     fi
 }
 
-clear
-echo "===================================================="
-echo "|            LOGIN TO EXISTING ACCOUNT             |"
-echo "===================================================="
-echo "(Press ESC to go back to the terminal)"
+while true; do
+    clear
+    echo "===================================================="
+    echo "|            LOGIN TO EXISTING ACCOUNT             |"
+    echo "===================================================="
+    echo "| 1) Login to Existing Email                       |"
+    echo "| 2) Open Crontab Manager                          |"
+    echo "| 3) Exit to Terminal                              |"
+    echo "===================================================="
+    echo "|      (Press ESC to go back to the terminal)      |"
+    echo "===================================================="
+
+    read -p "Select an option: " option
+
+    case $option in
+        1)
+            break
+            ;;
+        2)
+            bash scripts/manager.sh
+            continue
+            ;;
+        3)
+            echo "Exiting to terminal..."
+            sleep 1
+            exec ./terminal.sh
+            ;;
+        *)
+            echo "Invalid option! Please enter 1, 2, or 3."
+            sleep 2
+            ;;
+    esac
+done
 
 while true; do
     echo -n "Enter your email: "
-    check_escape
+    check_escape_while_login
     read EMAIL
     if [[ -n "$EMAIL" ]]; then
         break
@@ -29,7 +56,7 @@ done
 
 while true; do
     echo -n "Enter password: "
-    check_escape
+    check_escape_while_login
     read -s PASSWORD
     echo
     if [[ -n "$PASSWORD" ]]; then
@@ -48,5 +75,5 @@ else
 fi
 
 echo ""
-read -p "Press Enter to return to the terminal..."
-exec ./terminal.sh
+read -p "Press Enter to return to the main menu..."
+exec $0
