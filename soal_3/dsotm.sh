@@ -24,11 +24,14 @@ then
 elif [ "$TRACK" = "On the Run" ]
 then
 
- function ProgressBar {
+function ProgressBar {
+        local width=$(tput cols)
+        local current=$1
+        local total=$2
 
-        let _progress=(${1}*100/${2}*100)/100
-        let _done=(${_progress}*4)/10
-        let _left=40-$_done
+        let _progress=$(( (current * 100 / total * 100)/100 ))
+        let _done=$(( (_progress * (width - 18))/200 ))
+        let _left=$(( (width - 18) - _done ))
 
         _done=$(printf "%${_done}s")
         _left=$(printf "%${_left}s")
