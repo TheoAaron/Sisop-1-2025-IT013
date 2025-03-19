@@ -52,3 +52,9 @@ KENDALA
 - [ "$TRACK" = "Speak to Me" ] : tidak memberikan spasi antar [ ] yang mengakibatkan kode langsug tidak bisa dijalankan
 - di bagian brain damage tidak memberikan -e yang mengakibatkan output tidak lengkap
 
+REVISI
+
+![Image](https://github.com/user-attachments/assets/3711b673-e051-4eb9-b4ba-56c3e1166a1c)
+
+saya revisi bagian fungsi progressbar dengan memberikan tambahan columns
+
