@@ -1,4 +1,5 @@
-LOG_DIR="$(dirname "$0")/../logs"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOG_DIR="$SCRIPT_DIR/../logs"
 LOG_FILE="$LOG_DIR/core.log"
 
 mkdir -p "$LOG_DIR"

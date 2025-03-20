@@ -37,7 +37,7 @@ show_menu() {
 while true; do
     show_menu
 
-    tput cup 10 14
+    tput cup 11 14
     read -p "" option
 
 
@@ -49,15 +49,15 @@ while true; do
             bash login.sh
             ;;
         3)
-	    tput cup 12 12
+	    tput cup 13 12
             echo "Thank you for visiting dear observer"
-            tput cup 25 0
+            tput cup 26 0
             exit 0
             ;;
         *)
-            tput cup 12 12
+            tput cup 13 12
             echo "Invalid option! Please enter 1, 2, or 3."
-            tput cup 10 14
+            tput cup 11 14
             sleep 2
             ;;
     esac
