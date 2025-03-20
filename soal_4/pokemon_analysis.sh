@@ -1,35 +1,37 @@
 #!/bin/bash
 
+# Jika hanya --help diberikan tanpa file CSV
 if [[ "$1" == "--help" ]]; then
     cat << "EOF"
-███████╗ █████╗ ██╗      ██████╗  ██████╗ ███╗   ███╗ ██████╗ 
-██╔════╝██╔══██╗██║     ██╔═══██╗██╔═══██╗████╗ ████║██╔═══██╗
-███████╗███████║██║     ██║   ██║██║   ██║██╔████╔██║██║   ██║
-╚════██║██╔══██║██║     ██║   ██║██║   ██║██║╚██╔╝██║██║   ██║
-███████║██║  ██║███████╗╚██████╔╝╚██████╔╝██║ ╚═╝ ██║╚██████╔╝
-╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝     ╚═╝ ╚═════╝ 
+     _        _        _        _        _        _    
+   _( )__   _( )__   _( )__   _( )__   _( )__   _( )__ 
+ _|     _|_|     _|_|     _|_|     _|_|     _|_|     _|
+(_ S _ (_(_ A _ (_(_ L _ (_(_ O _ (_(_ M _ (_(_ O _ (_ 
+  |_( )__| |_( )__| |_( )__| |_( )__| |_( )__| |_( )__|
+                                              
 Pokemon Analysis Tool
 
 Usage:
   ./pokemon_analysis.sh <file.csv> <command> [options]
 
 Commands:
-  --info           : Menampilkan summary dari data
-  --sort <col>     : Mengurutkan berdasarkan kolom (usage, raw, hp, atk, etc.)
-  --grep <name>    : Mencari Pokemon berdasarkan nama
-  --filter <type>  : Mencari Pokemon berdasarkan Type
-  --avg            : Menampilkan rata-rata statistik semua Pokemon
-  --top10          : Menampilkan 10 Pokemon dengan Usage% tertinggi
-  --help           : Menampilkan halaman bantuan ini
+  --info       		: Menampilkan summary dari data
+  --sort <col> 		: Mengurutkan berdasarkan kolom (usage, raw, hp, atk, etc.)
+  --grep <name>		: Mencari Pokemon berdasarkan nama
+  --filter <type>	: Mencari Pokemon berdasarkan Type
+  --avg        		: Menampilkan rata-rata statistik semua Pokemon
+  --top10      		: Menampilkan 10 Pokemon dengan Usage% tertinggi
+  --help       	 	: Menampilkan halaman bantuan ini
 
 Example:
-  ./pokemon_analysis.sh pokemon_usage.csv --sort usage
-  ./pokemon_analysis.sh pokemon_usage.csv --grep rotom
-  ./pokemon_analysis.sh pokemon_usage.csv --filter dark
+  ./pokemon_analysis.sh pokemon_usage.csv --sort hp
+  ./pokemon_analysis.sh pokemon_usage.csv --grep pikachu
+  ./pokemon_analysis.sh pokemon_usage.csv --filter electric
 EOF
     exit 0
 fi
 
+# Jika jumlah argumen kurang dari 2
 if [[ $# -lt 2 ]]; then
     echo "Error: Missing arguments!"
     echo "Use ./pokemon_analysis.sh --help"
@@ -45,6 +47,7 @@ if [[ ! -f "$FILE" ]]; then
     exit 1
 fi
 
+# Fungsi untuk menampilkan summary data
 info_summary() {
     HEADER=$(head -n 1 "$FILE")
     HIGHEST_USAGE=$(tail -n +2 "$FILE" | sort -t, -k2 -nr | head -n 1)
@@ -61,6 +64,7 @@ info_summary() {
     echo "Highest Raw Usage:       $HIGHEST_RAW_NAME with $HIGHEST_RAW_COUNT uses"
 }
 
+# Fungsi untuk sorting berdasarkan kolom
 sort_data() {
     if [[ -z "$3" ]]; then
         echo "Error: Missing column name for sorting!"
@@ -88,6 +92,7 @@ sort_data() {
     esac
 
     echo "$HEADER"
+    
     if [[ "$COLUMN" == "name" ]]; then
         tail -n +2 "$FILE" | sort -t, -k"$COL"
     else
@@ -95,6 +100,7 @@ sort_data() {
     fi
 }
 
+# Fungsi untuk mencari Pokémon berdasarkan nama
 grep_pokemon() {
     if [[ -z "$3" ]]; then
         echo "Error: Missing Pokémon name!"
@@ -113,6 +119,7 @@ grep_pokemon() {
     fi
 }
 
+# Fungsi untuk mencari Pokémon berdasarkan tipe
 filter_type() {
     if [[ -z "$3" ]]; then
         echo "Error: Missing Pokémon type!"
@@ -135,6 +142,7 @@ filter_type() {
     fi
 }
 
+# Fungsi untuk menghitung rata-rata statistik Pokémon
 average_stats() {
     HEADER="Pokemon,Usage%,RawUsage,Type1,Type2,HP,Atk,Def,SpAtk,SpDef,Speed"
     AVG_HP=$(awk -F, 'NR>1 {sum+=$6; count++} END {print sum/count}' "$FILE")
@@ -148,12 +156,14 @@ average_stats() {
     echo "Average, N/A, N/A, N/A, N/A, $AVG_HP , $AVG_ATK , $AVG_DEF , $AVG_SPATK , $AVG_SPDEF , $AVG_SPEED"
 }
 
+# Fungsi untuk menampilkan 10 Pokémon dengan Usage% tertinggi
 top10_pokemon() {
     HEADER=$(head -n 1 "$FILE")
     echo "$HEADER"
     tail -n +2 "$FILE" | sort -t, -k2 -nr | head -n 10
 }
 
+# Switch case untuk mengeksekusi command yang diberikan
 case "$COMMAND" in
     --info) info_summary ;;
     --sort) sort_data "$@" ;;
