@@ -410,6 +410,6 @@ Berikut adalah dokumentasi perbaikan, dimana ketika kita mencoba fitur --sort na
 
 
 Berikut adalah dokumentasi untuk fitur --sort hp, maka akan menampilkan 3 pokemon dengan nyaw tertinggi yaitu Mew, Manaphy, dan Jirachi
-![image](https://github.com/user-attachments/assets/31230a9b-a041-450b-b4ff-08468e1960b2)
+![Image](https://github.com/user-attachments/assets/412e5383-0496-46e1-9003-0fccf7933348)
 
 
