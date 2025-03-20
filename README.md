@@ -179,3 +179,237 @@ REVISI
 
 saya revisi bagian fungsi progressbar dengan memberikan tambahan columns
 
+# SOAL4
+Pada soal no 4 Modul 1 Sisop, soal memberikan tugas untuk membuat sebuah file yg berisi analisis tentang pokemon. Pertama-tama, saya mendownload file yg sudah diberikan oleh author Amoes untuk data-data pokemon yg akan dianalisis dgn format file pokemon_usage.csv
+Kemudian saya beralih ke terminal dan membuat folder baru dengan nama pokemon_analisis dan file baru dengan nama pokemon_analysis.sh
+
+  ```
+  mkdir pokemon_analisis
+  cd pokemon_analisis
+  touch pokemon_analysis.sh
+  gedit pokemon_analysis.sh
+  ```
+Kemudian setelah itu, saya mengikuti instruksi soal untuk membuat program dari file yg ada agar menampilkan nama pokemon dengan Usage% dan RawUsage paling tinggi
+
+  ```
+  info_summary() {
+    HEADER=$(head -n 1 "$FILE")
+    HIGHEST_USAGE=$(tail -n +2 "$FILE" | sort -t, -k2 -nr | head -n 1)
+    HIGHEST_RAW=$(tail -n +2 "$FILE" | sort -t, -k3 -nr | head -n 1)
+
+    HIGHEST_USAGE_NAME=$(echo "$HIGHEST_USAGE" | cut -d, -f1)
+    HIGHEST_USAGE_PERCENT=$(echo "$HIGHEST_USAGE" | cut -d, -f2)
+
+    HIGHEST_RAW_NAME=$(echo "$HIGHEST_RAW" | cut -d, -f1)
+    HIGHEST_RAW_COUNT=$(echo "$HIGHEST_RAW" | cut -d, -f3)
+
+    echo "Summary of $FILE"
+    echo "Highest Adjusted Usage:  $HIGHEST_USAGE_NAME with $HIGHEST_USAGE_PERCENT%"
+    echo "Highest Raw Usage:       $HIGHEST_RAW_NAME with $HIGHEST_RAW_COUNT uses"
+  }
+
+  ```
+Kemudian berlanjut kepada poin berikutnya, kita akan menambahkan program agar dapat program dapat menggunakan fitur sort dengan ketentuan descending untuk semua angka selain nama, yang diurutkan secara alphabetical sehingga kita akan semakin mudah untuk menyortir data-data pokemon berdasarkan spesifikasi tertentunya
+
+  ```
+  sort_data() {
+    if [[ -z "$3" ]]; then
+        echo "Error: Missing column name for sorting!"
+        echo "Usage: ./pokemon_analysis.sh <file.csv> --sort <column>"
+        exit 1
+    fi
+
+    COLUMN="$3"
+    HEADER=$(head -n 1 "$FILE")
+
+    case "$COLUMN" in
+        usage)  COL=2 ;;
+        raw)    COL=3 ;;
+        name)   COL=1 ;;
+        hp)     COL=6 ;;
+        atk)    COL=7 ;;
+        def)    COL=8 ;;
+        spatk)  COL=9 ;;
+        spdef)  COL=10 ;;
+        speed)  COL=11 ;;
+        *)
+            echo "Error: Invalid column name '$COLUMN'!"
+            exit 1
+            ;;
+    esac
+
+    echo "$HEADER"
+    
+    if [[ "$COLUMN" == "name" ]]; then
+        tail -n +2 "$FILE" | sort -t, -k"$COL"
+    else
+        tail -n +2 "$FILE" | sort -t, -k"$COL" -nr
+    fi
+  }
+  ```
+Selanjutnya, kita akan menambahkan fitur baru dalam program dimana akan terdapat sebuah fitur untuk mencari nama pokemon yang ingin kita cari, seperti Rotom, Mew, dan lain sebagainya
+
+  ```
+  grep_pokemon() {
+    if [[ -z "$3" ]]; then
+        echo "Error: Missing Pokémon name!"
+        echo "Usage: ./pokemon_analysis.sh <file.csv> --grep <name>"
+        exit 1
+    fi
+
+    HEADER=$(head -n 1 "$FILE")
+    RESULT=$(tail -n +2 "$FILE" | grep -i "$3")
+
+    if [[ -z "$RESULT" ]]; then
+        echo "Error: Pokémon '$3' tidak ditemukan!"
+    else
+        echo "$HEADER"
+        echo "$RESULT"
+    fi
+  }
+  ```
+Sebagai manusia kita tidak luput dari kesalahan berupa human error, sehingga kami menambahkan fitur help untuk menampilkan list bantuan command jika ada kesalahan dalam penulisan command
+
+  ```
+  if [[ "$1" == "--help" ]]; then
+    cat << "EOF"
+       _        _        _        _        _        _    
+     _( )__   _( )__   _( )__   _( )__   _( )__   _( )__ 
+   _|     _|_|     _|_|     _|_|     _|_|     _|_|     _|
+  (_ S _ (_(_ A _ (_(_ L _ (_(_ O _ (_(_ M _ (_(_ O _ (_ 
+    |_( )__| |_( )__| |_( )__| |_( )__| |_( )__| |_( )__|
+                                              
+  Pokemon Analysis Tool
+
+  Usage:
+  ./pokemon_analysis.sh <file.csv> <command> [options]
+
+  Commands:
+  --info       		: Menampilkan summary dari data
+  --sort <col> 		: Mengurutkan berdasarkan kolom (usage, raw, hp, atk, etc.)
+  --grep <name>		: Mencari Pokemon berdasarkan nama
+  --filter <type>	: Mencari Pokemon berdasarkan Type
+  --avg        		: Menampilkan rata-rata statistik semua Pokemon
+  --top10      		: Menampilkan 10 Pokemon dengan Usage% tertinggi
+  --help       	 	: Menampilkan halaman bantuan ini
+
+  Example:
+  ./pokemon_analysis.sh pokemon_usage.csv --sort hp
+  ./pokemon_analysis.sh pokemon_usage.csv --grep pikachu
+  ./pokemon_analysis.sh pokemon_usage.csv --filter electric
+  EOF
+    exit 0
+  fi
+  ```
+Dan juga untuk error handling dimana jika ada command yg tidak lengkap atau salah menuliskan command tersebut
+
+  ```
+  if [[ $# -lt 2 ]]; then
+    echo "Error: Missing arguments!"
+    echo "Use ./pokemon_analysis.sh --help"
+    exit 1
+  fi
+  ```
+Dan juga untuk beberapa fitur tambahan, kami menambahkan 2 fitur tambahan untuk mempermudah proses pencarian yaitu dengan menggunakan filter dalam type2 pokemon yang ada dan juga memberikan bantuan kepada player baru untuk melihat top 10 pokemon yang ada dalam data author Amoes, serta menambahkan rata-rata untuk statistik data-data pokemon tersebut
+
+  Filter Type
+  
+  ```
+  filter_type() {
+    if [[ -z "$3" ]]; then
+        echo "Error: Missing Pokémon type!"
+        echo "Usage: ./pokemon_analysis.sh <file.csv> --filter <type>"
+        exit 1
+    fi
+
+    HEADER=$(head -n 1 "$FILE")
+    RESULT=$(tail -n +2 "$FILE" | awk -F, -v type="$(echo "$3" | tr '[:upper:]' '[:lower:]')" '{
+        type1 = tolower($4);
+        type2 = tolower($5);
+        if (type1 == type || type2 == type) print $0;
+    }')
+
+    if [[ -z "$RESULT" ]]; then
+        echo "Error: Tidak ada Pokémon dengan type '$3'!"
+    else
+        echo "$HEADER"
+        echo "$RESULT"
+    fi
+  }
+  ```
+
+  Top10 Search
+  
+  ```
+  top10_pokemon() {
+    HEADER=$(head -n 1 "$FILE")
+    echo "$HEADER"
+    tail -n +2 "$FILE" | sort -t, -k2 -nr | head -n 10
+  }
+  ```
+
+  Average Statistic
+  
+  ```
+  average_stats() {
+    HEADER="Pokemon,Usage%,RawUsage,Type1,Type2,HP,Atk,Def,SpAtk,SpDef,Speed"
+    AVG_HP=$(awk -F, 'NR>1 {sum+=$6; count++} END {print sum/count}' "$FILE")
+    AVG_ATK=$(awk -F, 'NR>1 {sum+=$7; count++} END {print sum/count}' "$FILE")
+    AVG_DEF=$(awk -F, 'NR>1 {sum+=$8; count++} END {print sum/count}' "$FILE")
+    AVG_SPATK=$(awk -F, 'NR>1 {sum+=$9; count++} END {print sum/count}' "$FILE")
+    AVG_SPDEF=$(awk -F, 'NR>1 {sum+=$10; count++} END {print sum/count}' "$FILE")
+    AVG_SPEED=$(awk -F, 'NR>1 {sum+=$11; count++} END {print sum/count}' "$FILE")
+
+    echo "$HEADER"
+    echo "Average, N/A, N/A, N/A, N/A, $AVG_HP , $AVG_ATK , $AVG_DEF , $AVG_SPATK , $AVG_SPDEF , $AVG_SPEED"
+  }
+  ```
+
+**REVISI**
+Pada demo praktikum modul 1 kemarin, program saya masih memiliki kekurangan dalam fitur sortnya dimana ketika mencoba sort elemen lain seperti hp, atk, dll, masih memberikan output yg sama dan tidak berubah. Berikut adalah perbaikan dan dokumentasinya:
+
+  ```
+  sort_data() {
+    if [[ -z "$3" ]]; then
+        echo "Error: Missing column name for sorting!"
+        echo "Usage: ./pokemon_analysis.sh <file.csv> --sort <column>"
+        exit 1
+    fi
+
+    COLUMN="$3"
+    HEADER=$(head -n 1 "$FILE")
+
+    case "$COLUMN" in
+        usage)  COL=2 ;;
+        raw)    COL=3 ;;
+        name)   COL=1 ;;
+        hp)     COL=6 ;;
+        atk)    COL=7 ;;
+        def)    COL=8 ;;
+        spatk)  COL=9 ;;
+        spdef)  COL=10 ;;
+        speed)  COL=11 ;;
+        *)
+            echo "Error: Invalid column name '$COLUMN'!"
+            exit 1
+            ;;
+    esac
+
+    echo "$HEADER"
+    
+    if [[ "$COLUMN" == "name" ]]; then
+        tail -n +2 "$FILE" | sort -t, -k"$COL"
+    else
+        tail -n +2 "$FILE" | sort -t, -k"$COL" -nr
+    fi
+  }
+  ```
+
+Berikut adalah dokumentasi perbaikan, dimana ketika kita mencoba fitur --sort name , maka nama-nama pokemon akan diurutkan secara alphabetic
+![Image](https://github.com/user-attachments/assets/5e9baa70-9e7a-4aa3-a921-1f07989e06ae)
+
+
+Berikut adalah dokumentasi untuk fitur --sort hp, maka akan menampilkan 3 pokemon dengan nyaw tertinggi yaitu Mew, Manaphy, dan Jirachi
+![image](https://github.com/user-attachments/assets/31230a9b-a041-450b-b4ff-08468e1960b2)
+
+
