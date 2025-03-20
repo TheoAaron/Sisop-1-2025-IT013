@@ -25,7 +25,9 @@ Pada file .csv yang diberikan, total durasi berada pada kolom keenam dan jenis g
 Pada kode diatas, dapat dilihat jika kolom kedelapan adalah "tablet" maka akan dihitung durasinya, dan akan dikeluarkan outputnya berupa total durasi dibagi dengan jumlah orang yang menggunakan tablet.
 
 Pada bagian c, saya disuruh untuk mencari pembaca dengan rating yang tertinggi.
-Untuk mencari nilai maksimal dalam sebuah set data, dapat menggunakan sebuah algoritmma dimana saya membuat sebuah variabel untuk menyimpan value data
+Untuk mencari nilai maksimal dalam sebuah set data, dapat menggunakan sebuah algoritma dimana saya membuat sebuah variabel kosong untuk menyimpan value data lalu dibandingkan dengan semua value rating yang ada, jika lebih besar, maka menggantikan value sebelumnya.
+
+Berikut merupakan kode yang telah saya buat:
 
 # SOAL 3
 
