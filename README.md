@@ -85,6 +85,41 @@ Dalam penggunaan CPU, terdapat 2 faktor yang mempengaruhi CPU usage, yaitu user 
 
 Pada bagian f, saya membuat sebuah program untuk memperlihatkan performa RAM user dan menyimpannya ke dalam file bernama frag_monitor.sh. Berikut merupakan kodenya:
 
+![image](https://github.com/user-attachments/assets/3e18f04e-0404-4bed-85db-b84e3c26dcb5)
+
+Pada kode tersebut, saya menggunakan function free -m untuk menampilkan informasi RAM dalam bentuk MB, lalu saya memakai rumus untuk menghitung persentase RAM yang terpakai, yaitu RAM yang terpakai dibagi dengan total RAM yang ada pada komputer user. $3 melambangkan RAM yang terpakai, sedangkan $2 melambangkan total RAM yang ada di komputer user. Saya juga mmeperlihatkan sisa RAM dalam komputer user yang dilmambangkan dengan $7.
+
+Pada bagian g, saya membuat sebuah crontab manager untuk mengatur jadwal pemantauan sistem. Pada menu ini, terdapat beberapa opsi, yaitu memperlihatkan usage CPU, memperlihatkan usage RAM, menghapus penggunaan usage CPU, menghapus penggunaan usage RAM, dan memperlihatkan seluruh kegiatan pemantauan sistem yang dijadwalkan. Berikut adalah kodenya:
+
+![image](https://github.com/user-attachments/assets/ba1da5a4-97d6-49ff-9e28-290a8bbbd3f1)
+
+Pada kode tersebut, saya membuat sebuah case simpel dimana akan menjadwalkan pemantauan sistem selama 3 menit sekali, baik RAM maupun CPU. Lalu jika user ingin menghapus pemantauan sistem, saya akan menghapus tampilan dan menghentikan program untuk memperlihatkan usage CPU dan RAM. Lalu, untuk memperlihatkan seluruh kegiatan yang sedang berlangsung, saya menggunakan function crontab -l.
+
+Pada bagian h, saya membuat sebuah direktori dimana semua file log pemantauan sistem akan disimpan. Direktori itu bernama logs dan berisikan dua file masing-masing bernama core.log untuk mneyimpan pemantauan CPU, dan fragment.log. Adapun format yang sudah diberikan pada output yang akan ditampilkan pada masing-masing log, yaitu sebagai berikut:
+
+![image](https://github.com/user-attachments/assets/0ea1292d-7a56-411d-b56f-bb4232dd15c1)
+
+Berikut merupakan kode yang akan dimasukkan ke dalam file core_monitor.sh dan frag_monitor.sh:
+
+![image](https://github.com/user-attachments/assets/7eec2c37-4c26-41ce-8d56-ce1be45ee288)
+
+Pada kode tersebut, saya membuat sebuah direktori baru pada lokasi yang disuruh, yaitu diluar direktori script dan bersama file terminal.sh dan direktori data player.
+
+Pada bagian i, saya membuat main menu bernama terminal.sh untuk mengatur segala program yang telah saya buat sebelumnya. Dalam main menu ini, berisikan opsi agar user dapat menuju menu Register, menu Login, dan menu Crontab manager yang ada dalam menu login.
+
+Berikut merupakan kodenya:
+
+![image](https://github.com/user-attachments/assets/d43a40f8-fdcb-44bc-aa97-bcf5de1e3901)
+
+Pada kode tersebut, saya membuat sebuah case dimana opsi 1 akan menuju menu register, opsi 2 akan menuju menu login, opsi 3 akan keluar dari program, dan sisanya akan dinyatakan input yang invalid.
+
+Note: tput cup hanyalah untuk desain menu nya, function tersebut untuk menaruh kursor user.
+
+KENDALA:
+1. Pada menu crontab, dilupakan untuk memberi function clear sebelum membuka menunya, sehingga menu crontab bertabrakan dengan menu login yang menyebabkan error yang fatal.
+
+Solusi:
+2. Menambahkan function clear atau while(true) sebelum menampilkan menu crontab.
 
 # SOAL 3
 
