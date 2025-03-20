@@ -1,6 +1,33 @@
 # Sisop-1-2025-IT013
 
-# SOAL 2
+# SOAL 1
+
+Pada soal ini, terdapat sebuah file .csv yang harus kita analisis menggunakan awk. Terdapat 4 bagian dari soal ini.
+
+Pertama-tama, saya membuat sebuah script yang sesuai dengan penamaan yaitu poppo_siroyo.sh dan mendownload fil .csv yang telah diberikan.
+
+Pada bagian a, saya disuruh untuk menghitung berapa kali Chris Hemsworth membaca buku.
+Untuk menghitung, saya membuat sebuah variabel bernama "chrisHems_count" dan menset value variabel tersebut menjadi 0.
+
+Pada file .csv yang telah diberikan, nama orang yang membaca buku disimpan pada kolom kedua, sehingga dapat menggunakan kode sebagai berikut:
+
+![image](https://github.com/user-attachments/assets/a49e4257-1711-4f64-963b-4eb9476c82e0)
+
+Setelah itu, saya sisa mengeluarkan output yang sesuai dengan template yang telah diberikan.
+
+Pada bagian b, saya disuruh untuk menghitung rata-rata durasi membaca dengan menggunakan tablet.
+Untuk menghitung rata-rata nya, saya mengambil data dimana orang menggunakan tablet dan mengambil durasi tiap orang yang menggunakan tablet. Setelah mengambil kedua data tersebut, cara untuk menghitung rata-ratanya adalah dengan menambahkan semua durasi orang menggunakan tablet dan membaginya dengan jumlah orang menggunakan tablet. Jadi, saya membuat dua variable yang diset 0 valuenya dengan nama "total_durasi" untuk menghitung total durasi orang menggunakan tablet, dan "jumlah_tablet" untuk menghitung berapa banyak tablet yang digunakan.
+
+Pada file .csv yang diberikan, total durasi berada pada kolom keenam dan jenis gadget yang digunakan berada pada kolom kedelapan, maka dapat menggunakan kode berikut ini:
+
+![image](https://github.com/user-attachments/assets/b8ff5a23-e323-43f0-b2ef-b623e472ea4e)
+
+Pada kode diatas, dapat dilihat jika kolom kedelapan adalah "tablet" maka akan dihitung durasinya, dan akan dikeluarkan outputnya berupa total durasi dibagi dengan jumlah orang yang menggunakan tablet.
+
+Pada bagian c, saya disuruh untuk mencari pembaca dengan rating yang tertinggi.
+Untuk mencari nilai maksimal dalam sebuah set data, dapat menggunakan sebuah algoritmma dimana saya membuat sebuah variabel untuk menyimpan value data
+
+# SOAL 3
 
 saya membuat script agar dsotm.sh bisa menjalankan commanc –play”<Track>”. Saya menggunakan for loop untuk menyimpan semua argument ke variavel arg, kemudian saya menggunakan switch case dan mencocokkan nilai dari argument apakah sama dengan –play=*. Jika sama maka saya akan menghapus karakter ‘–play=’ dan hanya menyisakan karakter setelah ‘=’ yang akan disimpan ke TRACK.
 
