@@ -29,6 +29,63 @@ Untuk mencari nilai maksimal dalam sebuah set data, dapat menggunakan sebuah alg
 
 Berikut merupakan kode yang telah saya buat:
 
+![image](https://github.com/user-attachments/assets/8ed05a8f-8df1-46dd-91f3-fb043a3036d8)
+
+Fungsi +0 pada kode diatas adalah untuk mengubah nilai yang diambil dari data agar dianggap menjadi integer.
+
+Pada bagian d, saya disuruh untuk mencari genre terbaik di region Asia setelah tahun 2023. Pertama, saya mencari dulu region Asia di komlom region, jika sudah dapat regionnya, maka saya akan mengecek tahunnya dengan cara memisahkan tahun, tanggal, dan bulan dari data dengan menggunakan fungsi split(), lalu saya akan mengecek apakah tahun tersebut lebih dari 2023, kalau iya, maka saya akan mengambil genre buku tersebut, jika tidak, maka tidak akan mengambil genre buku tersebut. Lalu saya akan mencari genre terbaik (terbanyak) dengan menggunakan algoritam yang sama degna sebelumnya, dengan cara membuat dua variabel string kosong, lalu menyimpan genre dari data dan menghitung jumlah tiap genre, ketika ada genre yang melebihi jumlah genre yang sedan diproses, maka akan menggantikan genre yang sedang diproses.
+
+Berikut adalah kode bagian d ini:
+
+![image](https://github.com/user-attachments/assets/ac2756c3-5908-4926-81c7-5c3d28c670ff)
+
+Pada kode tersebut, saya membuat string kosong diawal, lalu mencari region asia, lalu mencari genre terbaik di bagian END nya.
+
+# SOAL 2
+
+Pada soal ini, terdapat 9 bagian, namun saya hanya akan menjelaskan mengenai function diluar menu (file terminal.sh dan manager.sh).
+
+Pada bagian a, saya membuat sebuah program bernama register.sh dan login.sh, register.sh berfungsi untuk mendaftarkan email baru player dan dimasukkan ke dalam file bernama player.csv di folder "data". Login.sh berfungsi untuk media user yang ingin masuk ke dalam akun yang telah dibuat. Jadi, saya membuat sebuah menu simpel untuk menanyakan email, username, dan password di register.sh seperti berikut ini:
+
+![image](https://github.com/user-attachments/assets/ac6646e1-0e10-4241-ab8d-b8d05733e3d5)
+
+Note: function check escape hanyalah fitur.
+
+Setelah itu, saya membuat sebuah menu untuk login.sh yang berisikan kode untuk meminta email dan password dari user seperti berikut ini:
+
+![image](https://github.com/user-attachments/assets/a6f1fb69-dea4-4f6f-a5e3-31cb5800e1de)
+
+Note: read -s berfungsi untuk menghilangkan simbol yang diketik oleh user sehingga password tidak dapat dilihat sambil diketik.
+
+Pada bagian b, dinyatakan bahwa setiap email dan password yang diberikan oleh user harus melewati sistem validasi, email yang diberikan harus memiliki format xxxx@xx.xxx, yaitu memiliki tanda @ dan tanda . sesuai dengan format tersebut. Sedangkan password harus memiliki minimal 8 karakter, setidakny satu huruf kecil, satu huruf besar, dan satu angka.
+
+Maka saya membuat sebuah program dimana user harus memberikan input sesuai dengan format yang ada. Berikut merupakan kodenya:
+
+![image](https://github.com/user-attachments/assets/2cd46671-f0f8-465c-96d7-86e322c157e3)
+
+Pada kode tersebut terdapat dua function, yaitu validate_email() dan validate_password(). Function validate_email berisi sebuah line dimana inputyang diberikan user harus sesuai dengan format yaitu xxxx.@xx.xx dan function validate_password() berisi sebuah line dimana user harus memberikan input sebuah huruf besar (A-Z) DAN sebuah huruf kecil (a-z) DAN sebuah angka (0-9) DAN panjang string password adalah 8.
+
+Pada bagian c, saya membuat sebuah program dimana user tidak bisa meregeister sebuah email yang sama berulang kali. Jadi saya membuat kode dimana ketika user ingin membuat sebuah akun baru, maka saya akan mengecek kembali ke dalam data yang sudah disimpan dalam file player.csv dan mengecek apakah email sudah ada atau belum. Berikut merupakan kodenya:
+
+![image](https://github.com/user-attachments/assets/6ae15478-11d5-4723-b522-68f7e02016d0)
+
+Pada kode tersebut, saya mengambil input user dan mengecek dalam player.csv apakah email yang sudah dipakai atau tidak.
+
+Pada bagian d, password yang telah diberikan user harus disimpan dalam bentuk yang tidak mudah diretas. Oleh karena itu, saya membuat sebuah program dimana passowrd yang telah diberikan oleh sebuah user, akan saya hashing sha256sum. Berikut merupakan kodenya:
+
+![image](https://github.com/user-attachments/assets/a5b8442f-80ad-405d-8c8f-72cd16922153)
+
+Pada kode tersebut, sebelum saya masukkan password ke dalam player.csv, saya hash terlebih dahulu sebelum menyimpan datanya.
+
+Pada bagian e, saya membuat sebuah program untuk memperlihatkan performa CPU user dan menyimpannya ke dalam file bernama core_monitor.sh. Berikut merupakan kodenya:
+
+![image](https://github.com/user-attachments/assets/dcc9caee-b0d7-4ecf-8a37-472645ebb273)
+
+Dalam penggunaan CPU, terdapat 2 faktor yang mempengaruhi CPU usage, yaitu user usage dan system usage (ditandai dengan $2 dan $4). Maka, kedua usage tersebut harus ditambah untuk memperlihatkan CPU usage dari user secara keseluruhan, CPU model juga diambil langsung dari device user dengan menggunakan function cpuinfo(). 
+
+Pada bagian f, saya membuat sebuah program untuk memperlihatkan performa RAM user dan menyimpannya ke dalam file bernama frag_monitor.sh. Berikut merupakan kodenya:
+
+
 # SOAL 3
 
 saya membuat script agar dsotm.sh bisa menjalankan commanc –play”<Track>”. Saya menggunakan for loop untuk menyimpan semua argument ke variavel arg, kemudian saya menggunakan switch case dan mencocokkan nilai dari argument apakah sama dengan –play=*. Jika sama maka saya akan menghapus karakter ‘–play=’ dan hanya menyisakan karakter setelah ‘=’ yang akan disimpan ke TRACK.
